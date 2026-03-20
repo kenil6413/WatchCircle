@@ -7,10 +7,7 @@
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
     "lint": "eslint src",
-    "setup-db": "node src/scripts/setup-db.js",
-    "seed": "node src/scripts/seed.js",
-    "seed-admin-watchlist": "node src/scripts/seed-admin-watchlist.js",
-    "fill-admin-watchlist-posters": "node src/scripts/fill-admin-watchlist-posters.js"
+    "setup-db": "node src/scripts/setup-db.js"
   },
   "dependencies": {
     "dotenv": "^16.4.7",

@@ -29,9 +29,8 @@ Build a client-side rendered web application that helps users:
 
 ## Repository Structure
 
-- `backend/`: Express server, Mongo connection, API routes, seed script
+- `backend/`: Express server, Mongo connection, API routes
 - `frontend/`: React application and component-scoped CSS
-- `docs/`: design document and mockup placeholders
 
 ### Backend Structure
 
@@ -41,7 +40,6 @@ Build a client-side rendered web application that helps users:
 - `backend/src/passport.js`: Passport Local strategy and session serialization
 - `backend/src/routes/`: auth, groups, media, watchlist, and health routes
 - `backend/src/utils/`: small helpers for auth hashing and group sanitizing
-- `backend/src/scripts/seed.js`: generates synthetic data for submission/testing
 
 ### Frontend Structure
 
@@ -64,8 +62,7 @@ Build a client-side rendered web application that helps users:
 6. Optional: set `MONGO_DB_NAME` only if the database name is not already included in the URI.
 7. Run `npm install` from the repository root.
 8. Initialize MongoDB with `npm --workspace backend run setup-db`.
-9. Optional but recommended for the rubric: seed the database with `npm --workspace backend run seed`.
-10. Start the app with `npm run dev`.
+9. Start the app with `npm run dev`.
 
 ## Authentication
 
@@ -93,17 +90,7 @@ Build a client-side rendered web application that helps users:
 
 ## Screenshot
 
-Add the final application screenshot in `docs/mockups/` and link it here before submission.
-
-## Submission Checklist
-
-- Replace the class link above.
-- Add final screenshots in `docs/mockups/`.
-- Run `npm --workspace backend run seed` so the project has 1k+ synthetic records.
-- Deploy the project to a public server.
-- Record the narrated demo video with both teammates visible/present.
-- Double-check the Google Form links and thumbnail.
-- Freeze the code 24 hours before class.
+Add the final application screenshot here before submission.
 
 ## Notes
 
