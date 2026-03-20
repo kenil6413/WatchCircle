@@ -15,11 +15,11 @@ WatchCircle is a social watchlist app for tracking what to watch and sharing rec
 
 ## Quick Links
 
-- Live Hosted Website (Demo):
-- Design Document: 
-- Video Explanation on YouTube:
-- How to use the application (Instructions):
-- Presentation:
+- Live Hosted Website (Demo) - https://watchcircle.onrender.com/
+- Design Document - 
+- Video Explanation on YouTube - https://www.youtube.com/watch?v=IkRfLZO7b0g
+- How to use the application (Instructions) - 
+- Presentation - 
 
 ## Project Objective
 
