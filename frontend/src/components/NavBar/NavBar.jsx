@@ -1,5 +1,8 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
+// Importing CSS this way applies styles globally — if another component
+// uses the same class names (e.g., ".brand-button"), styles will clash and
+// override each other unpredictably. Use CSS Modules to avoid this.
 import "./NavBar.css";
 
 export default function NavBar({
