@@ -195,6 +195,15 @@
   color: #ffffff;
 }
 
+.recommendation-modal__button:not(:disabled):hover {
+  opacity: 0.88;
+}
+
+.recommendation-modal__button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 @media (max-width: 640px) {
   .recommendation-modal {
     max-height: calc(100vh - 24px);

@@ -162,6 +162,7 @@ export default function App() {
   const [recommendationComment, setRecommendationComment] = useState("");
   const [recommendationCommentError, setRecommendationCommentError] =
     useState("");
+  const [watchlistNotification, setWatchlistNotification] = useState(null);
   const [recommendationWatchlistMessage, setRecommendationWatchlistMessage] =
     useState("");
   const [
@@ -319,6 +320,18 @@ export default function App() {
     setIsRecommendationEditMode(false);
     setSelectedRecommendationId("");
   }, [selectedGroupId]);
+
+  useEffect(() => {
+    if (!watchlistNotification) {
+      return undefined;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      setWatchlistNotification(null);
+    }, 2200);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [watchlistNotification]);
 
   useEffect(() => {
     if (!recommendationWatchlistMessage) {
@@ -764,7 +777,9 @@ export default function App() {
         platform: watchlistForm.platform || "Other",
       };
 
-      if (watchlistModalMode === "edit" && editingWatchlistItemId) {
+      const wasEditing = watchlistModalMode === "edit";
+
+      if (wasEditing && editingWatchlistItemId) {
         await updateWatchlistItem(editingWatchlistItemId, payload);
       } else {
         await createWatchlistItem(payload);
@@ -772,6 +787,12 @@ export default function App() {
 
       await refreshWatchlist();
       closeWatchlistModal();
+      setWatchlistNotification({
+        message: wasEditing
+          ? "Title updated successfully."
+          : "Title added successfully.",
+        type: "success",
+      });
     } catch (error) {
       setWatchlistError(error.message);
     } finally {
@@ -814,8 +835,9 @@ export default function App() {
     try {
       await deleteWatchlistItem(itemId);
       await refreshWatchlist();
+      setWatchlistNotification({ message: "Title deleted.", type: "success" });
     } catch (error) {
-      setDataError(error.message);
+      setWatchlistNotification({ message: error.message, type: "error" });
     }
   }
 
@@ -1076,6 +1098,7 @@ export default function App() {
             <WatchlistPage
               isLoading={isLoadingData}
               items={watchlist}
+              notification={watchlistNotification}
               onAddItem={openCreateWatchlistModal}
               onDeleteItem={handleDeleteWatchlistItem}
               onEditItem={openEditWatchlistModal}

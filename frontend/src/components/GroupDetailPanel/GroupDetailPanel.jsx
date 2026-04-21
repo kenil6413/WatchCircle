@@ -21,6 +21,8 @@ const CATEGORY_EMOJI_MAP = {
   "tv show": "📺",
 };
 
+const PAGE_SIZE = 15;
+
 function getCategoryClass(category) {
   const normalizedCategory = (category ?? "").toLowerCase();
   const modifierClass = CATEGORY_STYLE_MAP[normalizedCategory];
@@ -41,13 +43,17 @@ function hasVote(votes, userId, direction) {
 }
 
 function getFilteredRecommendations(group, activeCategory, searchValue) {
-  const sortedRecommendations = [...group.recommendations].sort(
-    (firstItem, secondItem) =>
-      new Date(secondItem.createdAt ?? 0).getTime() -
-      new Date(firstItem.createdAt ?? 0).getTime()
-  );
+  const sorted = [...group.recommendations].sort((a, b) => {
+    const netA = (a.votesUp ?? 0) - (a.votesDown ?? 0);
+    const netB = (b.votesUp ?? 0) - (b.votesDown ?? 0);
+    if (netB !== netA) return netB - netA;
+    return (
+      new Date(b.createdAt ?? 0).getTime() -
+      new Date(a.createdAt ?? 0).getTime()
+    );
+  });
 
-  return sortedRecommendations.filter((recommendation) => {
+  return sorted.filter((recommendation) => {
     const matchesCategory =
       activeCategory === "All" || recommendation.category === activeCategory;
     const matchesSearch =
@@ -75,10 +81,16 @@ export default function GroupDetailPanel({
   onVoteRecommendation,
 }) {
   const [searchValue, setSearchValue] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setSearchValue("");
+    setCurrentPage(1);
   }, [group?._id]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeCategory, searchValue]);
 
   if (!group) {
     return (
@@ -97,6 +109,22 @@ export default function GroupDetailPanel({
     activeCategory,
     searchValue
   );
+
+  const totalPages = Math.ceil(visibleRecommendations.length / PAGE_SIZE);
+  const paginatedRecommendations = visibleRecommendations.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
+
+  const topRecommendationId =
+    visibleRecommendations.length > 0 &&
+    (visibleRecommendations[0].votesUp ?? 0) -
+      (visibleRecommendations[0].votesDown ?? 0) >
+      0
+      ? visibleRecommendations[0]._id
+      : null;
+
+  const isFiltered = Boolean(searchValue) || activeCategory !== "All";
 
   return (
     <section className="group-detail">
@@ -143,23 +171,28 @@ export default function GroupDetailPanel({
       </div>
 
       <div className="group-detail__filters">
-        <span className="group-detail__filter-label">Categories</span>
-        {CATEGORY_OPTIONS.map((category) => (
-          <button
-            key={category.value}
-            type="button"
-            className={
-              activeCategory === category.value
-                ? "group-detail__filter-pill group-detail__filter-pill--active"
-                : "group-detail__filter-pill"
-            }
-            onClick={() => onSelectCategory(category.value)}
-          >
-            {category.label}
-          </button>
-        ))}
+        <div className="group-detail__filter-group">
+          <span className="group-detail__filter-label">Categories</span>
+          <div className="group-detail__filter-pills">
+            {CATEGORY_OPTIONS.map((category) => (
+              <button
+                key={category.value}
+                type="button"
+                className={
+                  activeCategory === category.value
+                    ? "group-detail__filter-pill group-detail__filter-pill--active"
+                    : "group-detail__filter-pill"
+                }
+                onClick={() => onSelectCategory(category.value)}
+              >
+                {category.label}
+              </button>
+            ))}
+          </div>
+        </div>
 
         <label className="group-detail__search">
+          <span className="group-detail__search-label">Search</span>
           <input
             type="search"
             value={searchValue}
@@ -167,6 +200,13 @@ export default function GroupDetailPanel({
             onChange={(event) => setSearchValue(event.target.value)}
           />
         </label>
+
+        {isFiltered ? (
+          <span className="group-detail__result-count">
+            {visibleRecommendations.length}{" "}
+            {visibleRecommendations.length === 1 ? "result" : "results"}
+          </span>
+        ) : null}
 
         <div className="group-detail__filters-meta">
           <button
@@ -213,10 +253,14 @@ export default function GroupDetailPanel({
       ) : (
         <div className="group-detail__content">
           <div className="group-detail__grid">
-            {visibleRecommendations.map((recommendation, index) => (
+            {paginatedRecommendations.map((recommendation, index) => (
               <article
                 key={recommendation._id ?? `${recommendation.title}-${index}`}
-                className="group-detail__card"
+                className={
+                  recommendation._id === topRecommendationId
+                    ? "group-detail__card group-detail__card--top"
+                    : "group-detail__card"
+                }
               >
                 <div
                   className="group-detail__card-poster"
@@ -245,6 +289,9 @@ export default function GroupDetailPanel({
                   <span className={getCategoryClass(recommendation.category)}>
                     {recommendation.category ?? "Title"}
                   </span>
+                  {recommendation._id === topRecommendationId ? (
+                    <span className="group-detail__top-badge">Top Pick</span>
+                  ) : null}
                   {recommendation.posterUrl ? (
                     <img
                       className="group-detail__card-image"
@@ -310,6 +357,30 @@ export default function GroupDetailPanel({
               </article>
             ))}
           </div>
+
+          {totalPages > 1 ? (
+            <div className="group-detail__pagination">
+              <button
+                type="button"
+                className="group-detail__page-button"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                ← Prev
+              </button>
+              <span className="group-detail__page-info">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                type="button"
+                className="group-detail__page-button"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                Next →
+              </button>
+            </div>
+          ) : null}
         </div>
       )}
     </section>

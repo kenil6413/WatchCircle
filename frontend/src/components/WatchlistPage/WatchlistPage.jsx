@@ -1,11 +1,12 @@
 import PropTypes from "prop-types";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import StatCard from "../StatCard/StatCard.jsx";
 import "./WatchlistPage.css";
 
 const STATUS_OPTIONS = ["All", "Plan to Watch", "Watching", "Completed"];
 const CATEGORY_OPTIONS = ["All", "Anime", "Movie", "TV Show"];
 const SORT_OPTIONS = ["Newest added", "Oldest added", "Recently updated"];
+const PAGE_SIZE = 15;
 
 function getStatusClass(status) {
   if (status === "Watching") {
@@ -38,12 +39,18 @@ export default function WatchlistPage({
   onAddItem,
   onDeleteItem,
   onEditItem,
+  notification,
 }) {
   const [searchValue, setSearchValue] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [platformFilter, setPlatformFilter] = useState("All");
   const [sortOption, setSortOption] = useState("Newest added");
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchValue, categoryFilter, statusFilter, platformFilter, sortOption]);
 
   const platformOptions = useMemo(() => {
     return [
@@ -102,6 +109,18 @@ export default function WatchlistPage({
     sortOption,
   ]);
 
+  const totalPages = Math.ceil(filteredItems.length / PAGE_SIZE);
+  const paginatedItems = filteredItems.slice(
+    (currentPage - 1) * PAGE_SIZE,
+    currentPage * PAGE_SIZE
+  );
+
+  const isFiltered =
+    Boolean(searchValue) ||
+    categoryFilter !== "All" ||
+    statusFilter !== "All" ||
+    platformFilter !== "All";
+
   return (
     <section className="watchlist-page">
       <div className="watchlist-page__hero">
@@ -138,58 +157,88 @@ export default function WatchlistPage({
         ))}
       </div>
 
+      {notification?.message ? (
+        <div
+          className={`watchlist-page__notification watchlist-page__notification--${notification.type}`}
+        >
+          {notification.message}
+        </div>
+      ) : null}
+
       <div className="watchlist-page__toolbar">
-        <input
-          type="search"
-          value={searchValue}
-          placeholder="Search your watchlist"
-          onChange={(event) => setSearchValue(event.target.value)}
-        />
+        <label className="watchlist-page__toolbar-item">
+          <span className="watchlist-page__toolbar-label">Search</span>
+          <input
+            type="search"
+            value={searchValue}
+            placeholder="Search your watchlist"
+            onChange={(event) => setSearchValue(event.target.value)}
+          />
+        </label>
 
-        <select
-          value={categoryFilter}
-          onChange={(event) => setCategoryFilter(event.target.value)}
-        >
-          {CATEGORY_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option === "Movie" ? "Movies" : option}
-            </option>
-          ))}
-        </select>
+        <label className="watchlist-page__toolbar-item">
+          <span className="watchlist-page__toolbar-label">Category</span>
+          <select
+            value={categoryFilter}
+            onChange={(event) => setCategoryFilter(event.target.value)}
+          >
+            {CATEGORY_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option === "Movie" ? "Movies" : option}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          value={statusFilter}
-          onChange={(event) => setStatusFilter(event.target.value)}
-        >
-          {STATUS_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <label className="watchlist-page__toolbar-item">
+          <span className="watchlist-page__toolbar-label">Status</span>
+          <select
+            value={statusFilter}
+            onChange={(event) => setStatusFilter(event.target.value)}
+          >
+            {STATUS_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          value={platformFilter}
-          onChange={(event) => setPlatformFilter(event.target.value)}
-        >
-          {platformOptions.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <label className="watchlist-page__toolbar-item">
+          <span className="watchlist-page__toolbar-label">Platform</span>
+          <select
+            value={platformFilter}
+            onChange={(event) => setPlatformFilter(event.target.value)}
+          >
+            {platformOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
 
-        <select
-          value={sortOption}
-          onChange={(event) => setSortOption(event.target.value)}
-        >
-          {SORT_OPTIONS.map((option) => (
-            <option key={option} value={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+        <label className="watchlist-page__toolbar-item">
+          <span className="watchlist-page__toolbar-label">Sort by</span>
+          <select
+            value={sortOption}
+            onChange={(event) => setSortOption(event.target.value)}
+          >
+            {SORT_OPTIONS.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </label>
       </div>
+
+      {!isLoading && isFiltered ? (
+        <p className="watchlist-page__result-count">
+          {filteredItems.length}{" "}
+          {filteredItems.length === 1 ? "title" : "titles"} found
+        </p>
+      ) : null}
 
       {isLoading ? (
         <div className="watchlist-page__empty">
@@ -206,52 +255,78 @@ export default function WatchlistPage({
           </p>
         </div>
       ) : (
-        <div className="watchlist-page__grid">
-          {filteredItems.map((item) => (
-            <article key={item._id} className="watchlist-page__card">
-              <div className="watchlist-page__poster">
-                <span className={getStatusClass(item.status)}>
-                  {item.status}
-                </span>
-                {item.rating ? (
-                  <span className="watchlist-page__rating">
-                    ★ {item.rating}
+        <>
+          <div className="watchlist-page__grid">
+            {paginatedItems.map((item) => (
+              <article key={item._id} className="watchlist-page__card">
+                <div className="watchlist-page__poster">
+                  <span className={getStatusClass(item.status)}>
+                    {item.status}
                   </span>
-                ) : null}
-                {item.posterUrl ? (
-                  <img src={item.posterUrl} alt={`${item.title} poster`} />
-                ) : (
-                  <div className="watchlist-page__poster-fallback">
-                    {getFallbackEmoji(item.category)}
-                  </div>
-                )}
-              </div>
-
-              <div className="watchlist-page__card-body">
-                <h2>{item.title}</h2>
-                <p className="watchlist-page__meta">
-                  {item.platform} · {item.category}
-                </p>
-                <p className="watchlist-page__progress">
-                  {item.episodeProgress
-                    ? `Progress: ${item.episodeProgress}`
-                    : "Progress not set"}
-                </p>
-                {item.reviewNote ? (
-                  <p className="watchlist-page__note">{item.reviewNote}</p>
-                ) : null}
-                <div className="watchlist-page__card-actions">
-                  <button type="button" onClick={() => onEditItem(item)}>
-                    Edit
-                  </button>
-                  <button type="button" onClick={() => onDeleteItem(item._id)}>
-                    Delete
-                  </button>
+                  {item.rating ? (
+                    <span className="watchlist-page__rating">
+                      ★ {item.rating}
+                    </span>
+                  ) : null}
+                  {item.posterUrl ? (
+                    <img src={item.posterUrl} alt={`${item.title} poster`} />
+                  ) : (
+                    <div className="watchlist-page__poster-fallback">
+                      {getFallbackEmoji(item.category)}
+                    </div>
+                  )}
                 </div>
-              </div>
-            </article>
-          ))}
-        </div>
+
+                <div className="watchlist-page__card-body">
+                  <h2>{item.title}</h2>
+                  <p className="watchlist-page__meta">
+                    {item.platform} · {item.category}
+                  </p>
+                  <p className="watchlist-page__progress">
+                    {item.episodeProgress
+                      ? `Progress: ${item.episodeProgress}`
+                      : "Progress not set"}
+                  </p>
+                  {item.reviewNote ? (
+                    <p className="watchlist-page__note">{item.reviewNote}</p>
+                  ) : null}
+                  <div className="watchlist-page__card-actions">
+                    <button type="button" onClick={() => onEditItem(item)}>
+                      Edit
+                    </button>
+                    <button type="button" onClick={() => onDeleteItem(item._id)}>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {totalPages > 1 ? (
+            <div className="watchlist-page__pagination">
+              <button
+                type="button"
+                className="watchlist-page__page-button"
+                disabled={currentPage === 1}
+                onClick={() => setCurrentPage((p) => p - 1)}
+              >
+                ← Prev
+              </button>
+              <span className="watchlist-page__page-info">
+                Page {currentPage} of {totalPages}
+              </span>
+              <button
+                type="button"
+                className="watchlist-page__page-button"
+                disabled={currentPage === totalPages}
+                onClick={() => setCurrentPage((p) => p + 1)}
+              >
+                Next →
+              </button>
+            </div>
+          ) : null}
+        </>
       )}
     </section>
   );
@@ -280,6 +355,10 @@ WatchlistPage.propTypes = {
       ]),
     })
   ).isRequired,
+  notification: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+    type: PropTypes.oneOf(["success", "error"]).isRequired,
+  }),
   onAddItem: PropTypes.func.isRequired,
   onDeleteItem: PropTypes.func.isRequired,
   onEditItem: PropTypes.func.isRequired,
@@ -295,4 +374,8 @@ WatchlistPage.propTypes = {
     totalTitles: PropTypes.number.isRequired,
     watchingCount: PropTypes.number.isRequired,
   }).isRequired,
+};
+
+WatchlistPage.defaultProps = {
+  notification: null,
 };
