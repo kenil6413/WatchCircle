@@ -96,13 +96,30 @@
 
 /* Notification toast */
 .watchlist-page__notification {
+  position: fixed;
+  top: 24px;
+  right: 28px;
+  z-index: 9999;
   display: flex;
   align-items: center;
-  padding: 12px 16px;
-  border-radius: 12px;
-  font-size: 14px;
+  padding: 16px 24px;
+  border-radius: 16px;
+  font-size: 15px;
   font-weight: 600;
-  margin-bottom: 14px;
+  min-width: 300px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.6);
+  animation: toast-in 0.2s ease;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .watchlist-page__notification--success {
@@ -156,9 +173,14 @@
 /* Result count */
 .watchlist-page__result-count {
   margin: 0 0 14px;
-  color: #999999;
-  font-size: 13px;
-  font-weight: 600;
+  color: #f4f4f4;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 8px 14px;
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  border-radius: 10px;
+  display: inline-block;
 }
 
 /* Card grid */
@@ -176,15 +198,18 @@
   border-radius: 20px;
   background: #111111;
   transition:
-    transform 0.15s ease,
-    border-color 0.15s ease,
-    box-shadow 0.15s ease;
+    transform 0.18s ease,
+    border-color 0.18s ease,
+    box-shadow 0.18s ease;
 }
 
 .watchlist-page__card:hover {
-  transform: translateY(-3px);
-  border-color: rgba(255, 255, 255, 0.14);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  transform: translateY(-5px);
+  border-color: rgba(239, 58, 55, 0.55);
+  box-shadow:
+    0 0 0 1px rgba(239, 58, 55, 0.2),
+    0 8px 32px rgba(239, 58, 55, 0.18),
+    0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 .watchlist-page__poster {

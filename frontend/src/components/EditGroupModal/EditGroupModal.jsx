@@ -23,8 +23,42 @@ export default function EditGroupModal({
 }) {
   useEffect(() => {
     if (!isOpen) return;
+    const modal = document.querySelector(".edit-group-modal");
+    if (modal) {
+      const first = modal.querySelector(
+        "button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])"
+      );
+      first?.focus();
+    }
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === "Escape") onClose();
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key === "Tab") {
+        const m = document.querySelector(".edit-group-modal");
+        if (!m) return;
+        const focusable = Array.from(
+          m.querySelectorAll(
+            "button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])"
+          )
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const isInside = m.contains(document.activeElement);
+        if (!isInside || (!e.shiftKey && document.activeElement === last)) {
+          e.preventDefault();
+          first.focus();
+        } else if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      }
     };
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
