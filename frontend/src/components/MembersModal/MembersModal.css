@@ -74,7 +74,7 @@
 
 .members-modal__owner {
   margin: 0;
-  color: #777777;
+  color: #999999;
   font-size: 14px;
   align-self: center;
 }
@@ -124,7 +124,7 @@
 
 .members-modal__username {
   margin-top: 4px;
-  color: #7b7b7b;
+  color: #999999;
   font-size: 14px;
 }
 

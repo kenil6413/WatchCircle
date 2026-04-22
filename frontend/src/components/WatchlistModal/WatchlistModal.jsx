@@ -46,6 +46,7 @@ export default function WatchlistModal({
           <button
             type="button"
             className="watchlist-modal__close"
+            aria-label="Close"
             onClick={onClose}
           >
             ×

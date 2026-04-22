@@ -60,6 +60,7 @@ export default function RecommendationSpotlight({
           <button
             type="button"
             className="recommendation-spotlight__close"
+            aria-label="Close"
             onClick={onClose}
           >
             ×

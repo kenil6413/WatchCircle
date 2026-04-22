@@ -38,6 +38,7 @@ export default function RecommendationModal({
           <button
             type="button"
             className="recommendation-modal__close"
+            aria-label="Close"
             onClick={onClose}
           >
             ×

@@ -49,6 +49,7 @@ export default function MembersModal({
           <button
             type="button"
             className="members-modal__close"
+            aria-label="Close"
             onClick={onClose}
           >
             ×

@@ -47,7 +47,7 @@
   padding: 0 18px;
   border: 0;
   border-radius: 14px;
-  background: #ef3a37;
+  background: #c42b29;
   color: #fff;
   font-size: 15px;
   font-weight: 700;
@@ -56,7 +56,7 @@
 }
 
 .watchlist-page__add-button:not(:disabled):hover {
-  background: #d43330;
+  background: #b02523;
 }
 
 .watchlist-page__add-button:disabled {
@@ -138,7 +138,7 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #6e6e6e;
+  color: #999999;
   padding-left: 2px;
 }
 
@@ -156,7 +156,7 @@
 /* Result count */
 .watchlist-page__result-count {
   margin: 0 0 14px;
-  color: #6e6e6e;
+  color: #999999;
   font-size: 13px;
   font-weight: 600;
 }
@@ -164,7 +164,7 @@
 /* Card grid */
 .watchlist-page__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 240px));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 18px;
 }
 
@@ -175,7 +175,10 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 20px;
   background: #111111;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .watchlist-page__card:hover {
@@ -285,7 +288,9 @@
   color: #f2f2f2;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .watchlist-page__card-actions button:not(:disabled):hover {
@@ -319,7 +324,9 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .watchlist-page__page-button:not(:disabled):hover {
@@ -345,7 +352,7 @@
   align-items: center;
   justify-content: center;
   gap: 12px;
-  color: #767676;
+  color: #999999;
   text-align: center;
 }
 

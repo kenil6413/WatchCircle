@@ -42,6 +42,7 @@ export default function EditGroupModal({
           <button
             type="button"
             className="edit-group-modal__close"
+            aria-label="Close"
             onClick={onClose}
           >
             ×

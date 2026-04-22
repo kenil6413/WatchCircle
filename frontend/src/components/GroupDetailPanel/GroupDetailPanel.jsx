@@ -262,30 +262,24 @@ export default function GroupDetailPanel({
                     : "group-detail__card"
                 }
               >
-                <div
+                {isRecommendationEditMode && isOwner ? (
+                  <button
+                    type="button"
+                    className="group-detail__delete-recommendation"
+                    aria-label="Remove recommendation"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onRemoveRecommendation(recommendation._id);
+                    }}
+                  >
+                    ×
+                  </button>
+                ) : null}
+                <button
+                  type="button"
                   className="group-detail__card-poster"
                   onClick={() => onOpenRecommendation(recommendation._id)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      onOpenRecommendation(recommendation._id);
-                    }
-                  }}
-                  role="button"
-                  tabIndex={0}
                 >
-                  {isRecommendationEditMode && isOwner ? (
-                    <button
-                      type="button"
-                      className="group-detail__delete-recommendation"
-                      onClick={(event) => {
-                        event.stopPropagation();
-                        onRemoveRecommendation(recommendation._id);
-                      }}
-                    >
-                      ×
-                    </button>
-                  ) : null}
                   <span className={getCategoryClass(recommendation.category)}>
                     {recommendation.category ?? "Title"}
                   </span>
@@ -303,7 +297,7 @@ export default function GroupDetailPanel({
                       {getPosterEmoji(recommendation.category)}
                     </div>
                   )}
-                </div>
+                </button>
 
                 <div className="group-detail__card-body">
                   <div className="group-detail__card-title-row">
@@ -321,6 +315,7 @@ export default function GroupDetailPanel({
                   <div className="group-detail__card-actions">
                     <button
                       type="button"
+                      aria-label="Vote up"
                       className={
                         hasVote(recommendation.votes, currentUserId, "up")
                           ? "group-detail__vote-button group-detail__vote-button--active-up"
@@ -334,6 +329,7 @@ export default function GroupDetailPanel({
                     </button>
                     <button
                       type="button"
+                      aria-label="Vote down"
                       className={
                         hasVote(recommendation.votes, currentUserId, "down")
                           ? "group-detail__vote-button group-detail__vote-button--active-down"
@@ -347,6 +343,7 @@ export default function GroupDetailPanel({
                     </button>
                     <button
                       type="button"
+                      aria-label="View comments"
                       className="group-detail__comments-button"
                       onClick={() => onOpenRecommendation(recommendation._id)}
                     >

@@ -47,14 +47,14 @@
 
 .group-detail__title-block p {
   margin: 6px 0 0;
-  color: #6d6d6d;
+  color: #999999;
   font-size: 14px;
 }
 
 .group-detail__owner {
   display: inline-block;
   margin-top: 8px;
-  color: #7e7e7e;
+  color: #999999;
   font-size: 13px;
 }
 
@@ -77,7 +77,9 @@
   background: #131313;
   color: #f3f3f3;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .group-detail__pill-button:not(.group-detail__pill-button--static):hover {
@@ -94,7 +96,7 @@
 }
 
 .group-detail__pill-label {
-  color: #7a7a7a;
+  color: #999999;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -129,7 +131,10 @@
   font-size: 15px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .group-detail__button:not(:disabled):hover {
@@ -156,7 +161,7 @@
 }
 
 .group-detail__button--subtle {
-  color: #7b7b7b;
+  color: #999999;
 }
 
 /* Filters bar */
@@ -191,7 +196,7 @@
 }
 
 .group-detail__filter-label {
-  color: #6e6e6e;
+  color: #999999;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.1em;
@@ -208,7 +213,10 @@
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease;
 }
 
 .group-detail__filter-pill:hover {
@@ -236,7 +244,7 @@
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: #6e6e6e;
+  color: #999999;
 }
 
 .group-detail__search input {
@@ -251,7 +259,7 @@
 
 /* Result count */
 .group-detail__result-count {
-  color: #6e6e6e;
+  color: #999999;
   font-size: 13px;
   font-weight: 600;
   white-space: nowrap;
@@ -275,6 +283,7 @@
 }
 
 .group-detail__card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: min(238px, 100%);
@@ -283,7 +292,10 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 18px;
   background: #111111;
-  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .group-detail__card:hover {
@@ -430,7 +442,7 @@
 .group-detail__card-meta,
 .group-detail__card-platform {
   margin: 0;
-  color: #747474;
+  color: #999999;
   font-size: 12px;
 }
 
@@ -455,7 +467,9 @@
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .group-detail__vote-button:hover,
@@ -499,7 +513,9 @@
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.12s ease, border-color 0.12s ease;
+  transition:
+    background 0.12s ease,
+    border-color 0.12s ease;
 }
 
 .group-detail__page-button:not(:disabled):hover {
@@ -527,7 +543,7 @@
   justify-content: center;
   gap: 12px;
   padding: 40px;
-  color: #707070;
+  color: #999999;
   text-align: center;
 }
 

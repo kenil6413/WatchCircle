@@ -54,6 +54,7 @@ export default function NavBar({
         <button
           type="button"
           className="profile-trigger"
+          aria-label="Open profile menu"
           aria-expanded={isProfileMenuOpen}
           onClick={() => setIsProfileMenuOpen((currentState) => !currentState)}
         >

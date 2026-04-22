@@ -77,7 +77,7 @@
 .recommendation-modal__search-note,
 .recommendation-modal__hint {
   margin: 0;
-  color: #7a7a7a;
+  color: #999999;
   font-size: 12px;
 }
 
@@ -138,7 +138,7 @@
 }
 
 .recommendation-modal__field span {
-  color: #727272;
+  color: #999999;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;

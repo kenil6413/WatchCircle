@@ -294,7 +294,10 @@ export default function WatchlistPage({
                     <button type="button" onClick={() => onEditItem(item)}>
                       Edit
                     </button>
-                    <button type="button" onClick={() => onDeleteItem(item._id)}>
+                    <button
+                      type="button"
+                      onClick={() => onDeleteItem(item._id)}
+                    >
                       Delete
                     </button>
                   </div>

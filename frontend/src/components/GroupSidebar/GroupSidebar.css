@@ -24,7 +24,7 @@
 }
 
 .group-sidebar__join-row input::placeholder {
-  color: #666666;
+  color: #999999;
 }
 
 .group-sidebar__new-button {
@@ -81,7 +81,7 @@
 
 .group-sidebar__label {
   padding: 0 14px 18px;
-  color: #4c4c4c;
+  color: #999999;
   font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.16em;
@@ -148,7 +148,7 @@
 .group-sidebar__meta {
   display: block;
   margin-top: 4px;
-  color: #646464;
+  color: #999999;
   font-size: 12px;
   font-weight: 500;
 }
@@ -169,7 +169,7 @@
 
 .group-sidebar__empty {
   padding: 0 14px;
-  color: #666666;
+  color: #999999;
   font-size: 16px;
   line-height: 1.5;
 }
