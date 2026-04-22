@@ -20,6 +20,7 @@ WatchCircle is a social watchlist app for tracking what to watch and sharing rec
 - Video Explanation on YouTube - https://www.youtube.com/watch?v=qEF9-_xR8Dg
 - How to use the application (Instructions) - https://drive.google.com/file/d/1umeMLg3X-h-AeER7tquZoqLtKwJX6W-f/view?usp=sharing
 - Presentation - https://docs.google.com/presentation/d/1k9unoVO2NlIMM2E2nWpopD_O5GlKHUXTrtKYBVdeOJU/edit?usp=sharing
+- Usability Report - https://drive.google.com/file/d/1cs1iYYr9rtBxb7-d3PA6gO-XgoVj7NwG/view?usp=drive_link
 
 ## Project Objective
 
