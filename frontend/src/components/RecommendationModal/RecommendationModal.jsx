@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import MediaSearchField from "../MediaSearchField/MediaSearchField.jsx";
 import "./RecommendationModal.css";
@@ -16,6 +17,15 @@ export default function RecommendationModal({
   onSelectMedia,
   onSubmit,
 }) {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) {
     return null;
   }
