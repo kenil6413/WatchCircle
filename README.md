@@ -11,7 +11,7 @@ WatchCircle is a social watchlist app for tracking what to watch and sharing rec
 
 - Course: CS5610 Web Development
 - Class Link: https://johnguerra.co/classes/webDevelopment_online_spring_2026/
-- Assignment: Project 3 - Full stack application with Node + Express + Mongo + React (hooks)
+- Assignment: Final Project - Full stack application with Node + Express + Mongo + React (hooks)
 
 ## Quick Links
 
